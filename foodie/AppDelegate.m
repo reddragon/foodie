@@ -18,11 +18,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     NSLog(@"In didFinishLaunchingWithOptions");
     RestaurantListViewController* rvc = [[RestaurantListViewController alloc] init];
-    // UINavigationController* nvc = [[UINavigationController alloc] initWithRootViewController:rvc];
-    self.window.rootViewController = rvc;
-    // [self.window makeKeyAndVisible];
+    UINavigationController* nvc = [[UINavigationController alloc] initWithRootViewController:rvc];
+    self.window.rootViewController = nvc;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
