@@ -8,6 +8,7 @@
 
 #import "RestaurantListViewController.h"
 #import "RestaurantCell.h"
+#import "YelpClient.h"
 
 @interface RestaurantListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *restTable;
@@ -24,6 +25,13 @@
     self.restTable.rowHeight = 120;
     
     [self.restTable registerNib:[UINib nibWithNibName:@"RestaurantCell" bundle:nil] forCellReuseIdentifier:@"RestaurantCell"];
+    /*
+    YelpClient* client = [[YelpClient alloc] initWithConsumerKey:@"LV-f5dSnKJkfJBP8aPJSnQ" consumerSecret:@"P9iLZ-Mk4dtmWlvK1DxqxTo2xps" accessToken:@"j3uvzAZdLnTHu7hrE8uWdnk9b5E0eBLs" accessSecret:@"1CTX2Kn0ldmG4V1wxErO554K2HY"];
+    [client searchWithTerm:@"thai" success:^(AFHTTPRequestOperation *operation, id response) {
+        NSLog(@"Successful, response: %@", response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failed, response: %@", error);
+    }]; */
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
