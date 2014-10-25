@@ -12,6 +12,7 @@
 
 @interface RestaurantListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *restTable;
+@property (strong, nonatomic) NSArray* restaurants;
 
 @end
 
@@ -25,13 +26,17 @@
     self.restTable.rowHeight = 120;
     
     [self.restTable registerNib:[UINib nibWithNibName:@"RestaurantCell" bundle:nil] forCellReuseIdentifier:@"RestaurantCell"];
-    /*
+    
     YelpClient* client = [[YelpClient alloc] initWithConsumerKey:@"LV-f5dSnKJkfJBP8aPJSnQ" consumerSecret:@"P9iLZ-Mk4dtmWlvK1DxqxTo2xps" accessToken:@"j3uvzAZdLnTHu7hrE8uWdnk9b5E0eBLs" accessSecret:@"1CTX2Kn0ldmG4V1wxErO554K2HY"];
     [client searchWithTerm:@"thai" success:^(AFHTTPRequestOperation *operation, id response) {
-        NSLog(@"Successful, response: %@", response);
+        NSDictionary* dict = response;
+        self.restaurants = dict[@"businesses"];
+        NSLog(@"Successful, response: %@", self.restaurants);
+        [self.restTable reloadData];
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failed, response: %@", error);
-    }]; */
+    }];
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -39,11 +44,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return self.restaurants.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RestaurantCell* rcell = [self.restTable dequeueReusableCellWithIdentifier:@"RestaurantCell"];
+    rcell.restaurantName.text = self.restaurants[indexPath.row][@"name"];
     return rcell;
 }
 

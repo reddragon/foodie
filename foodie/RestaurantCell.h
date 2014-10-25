@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface RestaurantCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *restaurantName;
 
 @end

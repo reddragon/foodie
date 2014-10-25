@@ -51,6 +51,9 @@
                     </label>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="restaurantName" destination="0JB-Nl-vKj" id="tjb-ku-qv4"/>
+            </connections>
             <point key="canvasLocation" x="464.5" y="368.5"/>
         </tableViewCell>
     </objects>
