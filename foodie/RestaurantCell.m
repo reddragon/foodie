@@ -15,7 +15,7 @@
     [self.restaurantName setText:[NSString stringWithFormat:@"%ld. %@", index + 1, dictionary[@"name"]]];
     [self.rating setImageWithURL:[NSURL URLWithString:dictionary[@"rating_img_url"]]];
     [self.restImage setImageWithURL:[NSURL URLWithString:dictionary[@"image_url"]]];
-    [self.restImage.layer setCornerRadius:10.0];
+    [self.restImage.layer setCornerRadius:5.0];
     [self.restImage.layer setMasksToBounds:YES];
     
     [self.numReviews setText:[NSString stringWithFormat:@"%@ reviews", dictionary[@"review_count"]]];
