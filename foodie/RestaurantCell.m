@@ -29,6 +29,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    self.restaurantName.preferredMaxLayoutWidth = self.restaurantName.frame.size.width;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
