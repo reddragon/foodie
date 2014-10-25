@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *restTable;
 @property (strong, nonatomic) NSArray* restaurants;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navBar;
+@property (strong, nonatomic) UISearchBar* searchBar;
 
 @end
 
@@ -33,7 +34,10 @@
     // self.navigationController.navigationBar = self.navBar;
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:175.0/255.0 green:6.0/255.0 blue:6.0/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setBarStyle:UIStatusBarStyleLightContent];
-    
+    self.searchBar = [[UISearchBar alloc] init];
+    // self.searchBar.
+    self.navigationItem.titleView = self.searchBar;
+    //[self.navigationController.tit]
     
     UIBarButtonItem* filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:nil];
     filterButton.tintColor = [UIColor whiteColor];
