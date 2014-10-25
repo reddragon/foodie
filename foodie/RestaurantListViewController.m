@@ -24,7 +24,7 @@
     // Do any additional setup after loading the view from its nib.
     self.restTable.dataSource = self;
     self.restTable.delegate = self;
-    self.restTable.rowHeight = 110;
+    self.restTable.rowHeight = 100;
     
     [self.restTable registerNib:[UINib nibWithNibName:@"RestaurantCell" bundle:nil] forCellReuseIdentifier:@"RestaurantCell"];
     

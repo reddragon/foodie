@@ -12,7 +12,7 @@
 @implementation RestaurantCell
 
 - (void)initWithResponseDict:(NSDictionary *)dictionary index:(NSInteger)index {
-    [self.restaurantName setText:dictionary[@"name"]];
+    [self.restaurantName setText:[NSString stringWithFormat:@"%ld. %@", index + 1, dictionary[@"name"]]];
     [self.rating setImageWithURL:[NSURL URLWithString:dictionary[@"rating_img_url"]]];
     [self.restImage setImageWithURL:[NSURL URLWithString:dictionary[@"image_url"]]];
     [self.restImage.layer setCornerRadius:10.0];
@@ -22,6 +22,8 @@
     [self.address setText:dictionary[@"location"][@"address"][0]];
     // TODO
     // Set cuisine and distance
+    // Randomize setting the dollar rating
+    [self.dollarRating setText:@"$$"];
     // [rcell.distance setText:<#(NSString *)#>]
 }
 
