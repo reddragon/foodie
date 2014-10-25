@@ -14,6 +14,7 @@
 @interface RestaurantListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *restTable;
 @property (strong, nonatomic) NSArray* restaurants;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navBar;
 
 @end
 
@@ -26,13 +27,18 @@
     self.restTable.delegate = self;
     self.restTable.rowHeight = UITableViewAutomaticDimension;
     [self.restTable registerNib:[UINib nibWithNibName:@"RestaurantCell" bundle:nil] forCellReuseIdentifier:@"RestaurantCell"];
+
     
     // Set up the navbar.
+    // self.navigationController.navigationBar = self.navBar;
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:175.0/255.0 green:6.0/255.0 blue:6.0/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setBarStyle:UIStatusBarStyleLightContent];
-    // [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:1.0]];
-    // [UINavigationBar a]
-    // [self.navigationController.navigationBar setAlpha:1.0];
+    
+    
+    UIBarButtonItem* filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:nil];
+    filterButton.tintColor = [UIColor whiteColor];
+    self.navigationItem.leftBarButtonItem = filterButton;
+    // [filterButton release];
     
     // Querying the client
     YelpClient* client = [[YelpClient alloc] initWithConsumerKey:@"LV-f5dSnKJkfJBP8aPJSnQ" consumerSecret:@"P9iLZ-Mk4dtmWlvK1DxqxTo2xps" accessToken:@"j3uvzAZdLnTHu7hrE8uWdnk9b5E0eBLs" accessSecret:@"1CTX2Kn0ldmG4V1wxErO554K2HY"];

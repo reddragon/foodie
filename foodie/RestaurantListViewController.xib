@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RestaurantListViewController">
             <connections>
+                <outlet property="navBar" destination="NgN-1L-ZJN" id="yqW-wY-ya7"/>
                 <outlet property="restTable" destination="keb-w2-W7B" id="HqA-no-Vrg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -19,6 +20,15 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JlS-az-cN6">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <items>
+                        <navigationItem title="Title" id="NgN-1L-ZJN"/>
+                    </items>
+                    <variation key="widthClass=compact" fixedFrame="YES">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="44"/>
+                    </variation>
+                </navigationBar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -29,6 +39,9 @@
                 <constraint firstItem="keb-w2-W7B" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ezd-7M-B6m"/>
             </constraints>
             <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="JlS-az-cN6"/>
+                </mask>
                 <mask key="constraints">
                     <exclude reference="5tI-1b-sCd"/>
                     <exclude reference="6bu-gJ-Ul9"/>
@@ -38,6 +51,9 @@
                 </mask>
             </variation>
             <variation key="widthClass=compact">
+                <mask key="subviews">
+                    <include reference="JlS-az-cN6"/>
+                </mask>
                 <mask key="constraints">
                     <include reference="5tI-1b-sCd"/>
                     <include reference="6bu-gJ-Ul9"/>
