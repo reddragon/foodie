@@ -7,8 +7,23 @@
 //
 
 #import "RestaurantCell.h"
+#import "UIImageView+AFNetworking.h"
 
 @implementation RestaurantCell
+
+- (void)initWithResponseDict:(NSDictionary *)dictionary index:(NSInteger)index {
+    [self.restaurantName setText:dictionary[@"name"]];
+    [self.rating setImageWithURL:[NSURL URLWithString:dictionary[@"rating_img_url"]]];
+    [self.restImage setImageWithURL:[NSURL URLWithString:dictionary[@"image_url"]]];
+    [self.restImage.layer setCornerRadius:10.0];
+    [self.restImage.layer setMasksToBounds:YES];
+    
+    [self.numReviews setText:[NSString stringWithFormat:@"%@ reviews", dictionary[@"review_count"]]];
+    [self.address setText:dictionary[@"location"][@"address"][0]];
+    // TODO
+    // Set cuisine and distance
+    // [rcell.distance setText:<#(NSString *)#>]
+}
 
 - (void)awakeFromNib {
     // Initialization code

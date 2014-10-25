@@ -17,4 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *distance;
 @property (weak, nonatomic) IBOutlet UILabel *numReviews;
 
+- (void) initWithResponseDict:(NSDictionary*)dictionary index:(NSInteger)index;
+
 @end

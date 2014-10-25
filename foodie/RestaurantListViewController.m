@@ -41,7 +41,7 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    // TODO
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -51,17 +51,7 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RestaurantCell* rcell = [self.restTable dequeueReusableCellWithIdentifier:@"RestaurantCell"];
     NSDictionary* rest = self.restaurants[indexPath.row];
-    rcell.restaurantName.text = rest[@"name"];
-    [rcell.rating setImageWithURL:[NSURL URLWithString:rest[@"rating_img_url"]]];
-    [rcell.restImage setImageWithURL:[NSURL URLWithString:rest[@"image_url"]]];
-    [rcell.restImage.layer setCornerRadius:10.0];
-    [rcell.restImage.layer setMasksToBounds:YES];
-    
-    [rcell.numReviews setText:[NSString stringWithFormat:@"%@ reviews", rest[@"review_count"]]];
-    [rcell.address setText:rest[@"location"][@"address"][0]];
-    // TODO
-    // Set cuisine and distance
-    // [rcell.distance setText:<#(NSString *)#>]
+    [rcell initWithResponseDict:rest index:indexPath.row];
     return rcell;
 }
 
