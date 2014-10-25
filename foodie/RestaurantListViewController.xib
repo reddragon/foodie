@@ -21,6 +21,31 @@
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="keb-w2-W7B" secondAttribute="bottom" id="5tI-1b-sCd"/>
+                <constraint firstItem="keb-w2-W7B" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6bu-gJ-Ul9"/>
+                <constraint firstAttribute="bottom" secondItem="keb-w2-W7B" secondAttribute="bottom" id="EPO-2X-0Xx"/>
+                <constraint firstAttribute="trailing" secondItem="keb-w2-W7B" secondAttribute="trailing" id="aTz-x0-f6W"/>
+                <constraint firstItem="keb-w2-W7B" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ezd-7M-B6m"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="5tI-1b-sCd"/>
+                    <exclude reference="6bu-gJ-Ul9"/>
+                    <exclude reference="EPO-2X-0Xx"/>
+                    <exclude reference="aTz-x0-f6W"/>
+                    <exclude reference="ezd-7M-B6m"/>
+                </mask>
+            </variation>
+            <variation key="widthClass=compact">
+                <mask key="constraints">
+                    <include reference="5tI-1b-sCd"/>
+                    <include reference="6bu-gJ-Ul9"/>
+                    <include reference="EPO-2X-0Xx"/>
+                    <include reference="aTz-x0-f6W"/>
+                    <include reference="ezd-7M-B6m"/>
+                </mask>
+            </variation>
         </view>
     </objects>
 </document>

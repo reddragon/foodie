@@ -9,6 +9,7 @@
 #import "RestaurantListViewController.h"
 #import "RestaurantCell.h"
 #import "YelpClient.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface RestaurantListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *restTable;
@@ -23,7 +24,7 @@
     // Do any additional setup after loading the view from its nib.
     self.restTable.dataSource = self;
     self.restTable.delegate = self;
-    self.restTable.rowHeight = 120;
+    self.restTable.rowHeight = 110;
     
     [self.restTable registerNib:[UINib nibWithNibName:@"RestaurantCell" bundle:nil] forCellReuseIdentifier:@"RestaurantCell"];
     
@@ -49,7 +50,18 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RestaurantCell* rcell = [self.restTable dequeueReusableCellWithIdentifier:@"RestaurantCell"];
-    rcell.restaurantName.text = self.restaurants[indexPath.row][@"name"];
+    NSDictionary* rest = self.restaurants[indexPath.row];
+    rcell.restaurantName.text = rest[@"name"];
+    [rcell.rating setImageWithURL:[NSURL URLWithString:rest[@"rating_img_url"]]];
+    [rcell.restImage setImageWithURL:[NSURL URLWithString:rest[@"image_url"]]];
+    [rcell.restImage.layer setCornerRadius:10.0];
+    [rcell.restImage.layer setMasksToBounds:YES];
+    
+    [rcell.numReviews setText:[NSString stringWithFormat:@"%@ reviews", rest[@"review_count"]]];
+    [rcell.address setText:rest[@"location"][@"address"][0]];
+    // TODO
+    // Set cuisine and distance
+    // [rcell.distance setText:<#(NSString *)#>]
     return rcell;
 }
 

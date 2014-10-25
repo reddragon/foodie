@@ -10,5 +10,11 @@
 
 @interface RestaurantCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *restaurantName;
+@property (weak, nonatomic) IBOutlet UIImageView *restImage;
+@property (weak, nonatomic) IBOutlet UIImageView *rating;
+@property (weak, nonatomic) IBOutlet UILabel *address;
+@property (weak, nonatomic) IBOutlet UILabel *cuisine;
+@property (weak, nonatomic) IBOutlet UILabel *distance;
+@property (weak, nonatomic) IBOutlet UILabel *numReviews;
 
 @end
