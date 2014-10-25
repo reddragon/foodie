@@ -32,6 +32,11 @@
     self.restaurantName.preferredMaxLayoutWidth = self.restaurantName.frame.size.width;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.restaurantName.preferredMaxLayoutWidth = self.restaurantName.frame.size.width;
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
