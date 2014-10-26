@@ -10,6 +10,17 @@
 
 @implementation ExpandingCell
 
+
+- (IBAction)onSwitchValueChanged:(id)sender {
+    NSLog(@"Switch in row %d was pressed", self.row);
+    if (self.delegate != nil) {
+        NSLog(@"Calling delegate");
+        [self.delegate onSwitch:self];
+    } else {
+        NSLog(@"Delegate was nil");
+    }
+}
+
 - (void)awakeFromNib {
     // Initialization code
 }
@@ -18,6 +29,12 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)initWithOptions:(NSInteger)row isOn:(BOOL)isOn delegate:(id)delegate {
+    self.row = row;
+    self.delegate = delegate;
+    [self.cellSwitch setOn:isOn];
 }
 
 @end

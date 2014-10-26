@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UITableView.h>
+#import "ExpandingCell.h"
 
-@interface ExpandableList : NSObject
+@interface ExpandableList : NSObject <ExpandingCellDelegate>
 - (ExpandableList*)initWithObjects:(NSArray*)options defaultIndex:(NSInteger)defaultIndex tableView:(UITableView*)tableView section:(NSInteger)section;
 - (void)collapseWithIndex:(NSInteger)index;
 - (void)expand;
 - (int)getNumRows;
 - (BOOL)isCollapsed;
 - (void)handleClick:(NSInteger)index;
+- (UITableViewCell*)cellForIndex:(NSInteger)index;
 @end

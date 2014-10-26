@@ -68,8 +68,8 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.filterHeaders[indexPath.section] isEqual:@"Sort By"]) {
         return [self.filterTable dequeueReusableCellWithIdentifier:@"SortByCell"];
-    } else if ([self.filterHeaders[indexPath.section] isEqual:@"Radius"]) {
-        return [self.filterTable dequeueReusableCellWithIdentifier:@"ExpandingCell"];
+    } else if (indexPath.section == 1) {
+        return [self.el cellForIndex:indexPath.row];
     }
     UITableViewCell* tvc = [[UITableViewCell alloc] init];
     return tvc;

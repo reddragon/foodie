@@ -19,8 +19,18 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b9R-87-rc2">
+                        <rect key="frame" x="263" y="6" width="51" height="31"/>
+                        <connections>
+                            <action selector="onSwitchValueChanged:" destination="KGk-i7-Jjw" eventType="valueChanged" id="OLY-qF-HN1"/>
+                        </connections>
+                    </switch>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="cellLabel" destination="mbx-5Z-pj6" id="1IR-dp-kL7"/>
+                <outlet property="cellSwitch" destination="b9R-87-rc2" id="WNv-OV-i6t"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

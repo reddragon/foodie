@@ -7,6 +7,7 @@
 //
 
 #import "ExpandableList.h"
+#import "ExpandingCell.h"
 #import <UIKit/UIKit.h>
 
 @interface ExpandableList()
@@ -74,5 +75,19 @@
 
 - (BOOL)isCollapsed {
     return self.collapsed;
+}
+
+- (UITableViewCell*)cellForIndex:(NSInteger)index {
+    ExpandingCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"ExpandingCell"];
+    [cell initWithOptions:index isOn:(index == self.selectedIndex) delegate:self];
+    [cell.cellLabel setText:[self.options objectAtIndex:index]];
+    return cell;
+}
+
+- (void)onSwitch:(ExpandingCell *)cell {
+    NSLog(@"I was just informed that switch at row: %d was changed", cell.row);
+    self.selectedIndex = cell.row;
+    NSIndexSet* indexSet = [[NSIndexSet alloc] initWithIndex:self.section];
+    [self.tableView reloadSections:indexSet withRowAnimation:NO];
 }
 @end
