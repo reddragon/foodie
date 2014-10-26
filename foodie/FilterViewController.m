@@ -7,11 +7,13 @@
 //
 
 #import "FilterViewController.h"
+#include "ExpandableList.h"
 
 @interface FilterViewController ()
 @property (strong, nonatomic) NSArray* filterHeaders;
 @property (strong, nonatomic) NSMutableArray* filterRows;
 @property (strong, nonatomic) NSMutableArray* isFiltered;
+@property (strong, nonatomic) ExpandableList* el;
 
 @end
 
@@ -22,6 +24,9 @@
     // Do any additional setup after loading the view from its nib.
     self.filterTable.delegate = self;
     self.filterTable.dataSource = self;
+    
+    self.el = [[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Foo", @"Bar", nil] defaultIndex:1 tableView:self.filterTable section:1];
+    
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.filterHeaders = [[NSArray alloc] initWithObjects:@"Sort By", @"Radius", @"Categories", nil];
     self.filterRows = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:1], [NSNumber numberWithInt:1], nil];
@@ -37,24 +42,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.filterTable deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1) {
-        NSLog(@"Accessed section 1");
-        if ([self.isFiltered[indexPath.section] boolValue]) {
-            NSLog(@"In filtered section");
-            self.isFiltered[indexPath.section] = [NSNumber numberWithBool:NO];
-            NSInteger row = 1;
-            NSMutableArray* indexPaths = [[NSMutableArray alloc] initWithObjects:[NSIndexPath indexPathForItem:row inSection:indexPath.section], nil];
-            self.filterRows[indexPath.section] = [NSNumber numberWithInt:2];
-            [self.filterTable insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
-        } else {
-            NSLog(@"In non filtered section");
-            self.isFiltered[indexPath.section] = [NSNumber numberWithBool:YES];
-            NSInteger row = 1;
-            NSMutableArray* indexPaths = [[NSMutableArray alloc] initWithObjects:[NSIndexPath indexPathForItem:row inSection:indexPath.section], nil];
-            self.filterRows[indexPath.section] = [NSNumber numberWithInt:1];
-            [self.filterTable deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
-            
-        }
-        // [self.filterTable reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:YES];
+        [self.el handleClick:indexPath.row];
     } else if (indexPath.section == 2) {
         self.filterRows[indexPath.section] = [NSNumber numberWithInt:2];
         NSInteger row = 1;
@@ -69,6 +57,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 1) {
+        NSLog(@"Number of rows in special section %d are %d", section, [self.el getNumRows]);
+        return [self.el getNumRows];
+    }
     NSLog(@"Number of rows in section %d are %d", section, [self.filterRows[section] intValue]);
     return [self.filterRows[section] intValue];
 }
