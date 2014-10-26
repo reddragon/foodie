@@ -10,6 +10,7 @@
 #import "RestaurantCell.h"
 #import "YelpClient.h"
 #import "UIImageView+AFNetworking.h"
+#include "FilterViewController.h"
 
 @interface RestaurantListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *restTable;
@@ -39,7 +40,7 @@
     self.navigationItem.titleView = self.searchBar;
     //[self.navigationController.tit]
     
-    UIBarButtonItem* filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:nil];
+    UIBarButtonItem* filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(onPressFilterButton)];
     filterButton.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = filterButton;
     // [filterButton release];
@@ -54,6 +55,11 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failed, response: %@", error);
     }];
+}
+
+- (void)onPressFilterButton {
+    FilterViewController* fvc = [[FilterViewController alloc] init];
+    [self.navigationController pushViewController:fvc animated:YES];
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -17,6 +17,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.filterTable.delegate = self;
+    self.filterTable.dataSource = self;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
+- (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"Foo";
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 5;
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell* tvc = [[UITableViewCell alloc] init];
+    return tvc;
+    // return nil;
 }
 
 - (void)didReceiveMemoryWarning {
