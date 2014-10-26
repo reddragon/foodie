@@ -46,7 +46,7 @@
         NSMutableArray* collapsedRow = [[NSMutableArray alloc] initWithCapacity:1];
         [collapsedRow addObject:[NSIndexPath indexPathForItem:0 inSection:self.section]];
         self.numRows = 1;
-        [self.tableView insertRowsAtIndexPaths:collapsedRow withRowAnimation:UITableViewRowAnimationBottom];
+        [self.tableView insertRowsAtIndexPaths:collapsedRow withRowAnimation:NO];
         
     } else {
         NSLog(@"Beware! Tried collapsing expandableList for section %d, which was already collapsed.", self.section);
@@ -62,7 +62,7 @@
         NSMutableArray* collapsedRow = [[NSMutableArray alloc] initWithCapacity:1];
         [collapsedRow addObject:[NSIndexPath indexPathForItem:0 inSection:self.section]];
         self.numRows = 0;
-        [self.tableView deleteRowsAtIndexPaths:collapsedRow withRowAnimation:UITableViewRowAnimationBottom];
+        [self.tableView deleteRowsAtIndexPaths:collapsedRow withRowAnimation:NO];
         
         NSMutableArray* indexPaths = [[NSMutableArray alloc] initWithCapacity:self.options.count];
         for (NSInteger i = 0; i < self.options.count; i++) {
@@ -99,7 +99,7 @@
             NSLog(@"Warning! Tried to access a non-zero cell (%d) for a collapsed section %d", index, self.section);
         }
         ExpandingCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"ExpandingCell"];
-        [cell.cellLabel setText:[self.options objectAtIndex:index]];
+        [cell.cellLabel setText:[self.options objectAtIndex:self.selectedOptionIndex]];
         cell.cellSwitch.hidden = YES;
         return cell;
     } else {
@@ -113,7 +113,8 @@
 - (void)onSwitch:(ExpandingCell *)cell {
     NSLog(@"I was just informed that switch at row: %d was changed", cell.row);
     self.selectedOptionIndex = cell.row;
-    NSIndexSet* indexSet = [[NSIndexSet alloc] initWithIndex:self.section];
-    [self.tableView reloadSections:indexSet withRowAnimation:NO];
+    // NSIndexSet* indexSet = [[NSIndexSet alloc] initWithIndex:self.section];
+    [self collapseWithIndex:cell.row];
+    // [self.tableView reloadSections:indexSet withRowAnimation:NO];
 }
 @end
