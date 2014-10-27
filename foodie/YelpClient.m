@@ -39,26 +39,13 @@
     NSString* sort = self.filterDict[@"sort"];
     if (sort.length > 0) {
         parameters[@"sort"] = sort;
-    } 
+    }
     
     NSString* category_filter = self.filterDict[@"category_filter"];
     if (category_filter.length > 0) {
         parameters[@"category_filter"] = category_filter;
         // parameters[@"term"] = @"abc";
-    }
-    
-    /*
-            @{
-              @"term": term,
-              @"ll" : @"37.774866,-122.394556",
-              // @"radius_filter": @""
-              //@"sort": self.filterDict[@"sort"],
-              //@"radius_filter": self.filterDict[@"radius_filter"],
-              //@"category_filter":self.filterDict[@"category_filter"]
-     
-            };
-     */
-    NSLog(@"Making a query with param: %@", parameters);
+    }    NSLog(@"Making a query with param: %@", parameters);
     return [self GET:@"search" parameters:parameters success:success failure:failure];
 }
 

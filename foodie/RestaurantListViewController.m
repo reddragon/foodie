@@ -83,7 +83,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
         [SVProgressHUD dismiss];
         NSDictionary* dict = response;
         self.restaurants = dict[@"businesses"];
-        NSLog(@"Successful, response: %@", self.restaurants);
+        // NSLog(@"Successful, response: %@", self.restaurants);
         [self.restTable reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD dismiss];
