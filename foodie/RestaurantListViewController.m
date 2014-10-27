@@ -96,7 +96,10 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 
 - (void)viewWillAppear:(BOOL)animated {
     if (self.requiresReload) {
+        NSLog(@"Requires reload");
         [self searchWithTerm:self.searchTerm];
+    } else {
+        NSLog(@"Does not require reload");
     }
 }
 
@@ -118,7 +121,9 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 }
 
 - (void)searchWithTerm:(NSString*)term {
+    NSLog(@"In searchWithTerm");
     self.requiresReload = NO;
+    self.filterDict[@"offset"] = @"0";
     // Querying the client
     [SVProgressHUD show];
     YelpClient* client = [[YelpClient alloc] initWithConsumerKey:consumerKey consumerSecret:consumerSecret accessToken:accessToken accessSecret:accessSecret filterDict:self.filterDict];
@@ -126,6 +131,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
         [SVProgressHUD dismiss];
         NSDictionary* dict = response;
         self.restaurants = [[NSMutableArray alloc] initWithArray:dict[@"businesses"]];
+        
         [self.restTable reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD dismiss];
@@ -135,6 +141,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 }
 
 - (void)searchForInfiniteScrolling {
+    NSLog(@"In infiniteLoading");
     int offset = self.restaurants.count;
     self.filterDict[@"offset"] = [NSString stringWithFormat:@"%d", offset];
     // Querying the client
@@ -148,7 +155,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
         
         NSMutableArray* newElements = [[NSMutableArray alloc] initWithArray:els ];
         [self.restaurants addObjectsFromArray:newElements];
-        NSLog(@"New length: %d response size: %d", self.restaurants.count, els.count);
+        NSLog(@"New length: %lu response size: %lu", (unsigned long)self.restaurants.count, (unsigned long)els.count);
         // self.restaurants = dict[@"businesses"];
         [self.restTable reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
