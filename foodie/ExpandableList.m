@@ -112,7 +112,8 @@
 }
 
 - (void)onSwitch:(ExpandingCell *)cell {
-    NSLog(@"I was just informed that switch at row: %ld was changed", (long)cell.row);
+    // NSLog(@"I was just informed that switch at row: %ld was changed", (long)cell.row);
+    // NSLog(@"New Value: %@", self.options[cell.row]);
     self.selectedOptionIndex = cell.row;
     // NSIndexSet* indexSet = [[NSIndexSet alloc] initWithIndex:self.section];
     [self collapseWithIndex:cell.row];

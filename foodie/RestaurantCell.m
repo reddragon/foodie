@@ -27,6 +27,8 @@
       [self.address setText:dictionary[@"location"][@"address"][0]];
     }
     
+    NSLog(@"Restaurant: %@, Address: %@", self.restaurantName.text, self.address.text);
+    
     NSMutableArray* categories = [[NSMutableArray alloc] initWithCapacity:20];
     for (NSArray* category in dictionary[@"categories"]) {
         [categories addObject:category[0]];

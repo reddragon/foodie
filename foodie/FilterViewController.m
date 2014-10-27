@@ -59,10 +59,10 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section != 0) {
         ExpandableList* el = self.dict[[@(section) stringValue]];
-        NSLog(@"Number of rows in special section %ld are %d", (long)section, [el getNumRows]);
+        // NSLog(@"Number of rows in special section %ld are %d", (long)section, [el getNumRows]);
         return [el getNumRows];
     }
-    NSLog(@"Number of rows in section %ld are %d", (long)section, [self.filterRows[section] intValue]);
+    // NSLog(@"Number of rows in section %ld are %d", (long)section, [self.filterRows[section] intValue]);
     return [self.filterRows[section] intValue];
 }
 
@@ -78,9 +78,9 @@
 }
 
 - (void)onClickSortBy:(id)sender {
-    NSLog(@"onClickSortBy invoked");
+    // NSLog(@"onClickSortBy invoked");
     UISegmentedControl* segControl = sender;
-    NSLog(@"Selected segment index: %d", [segControl selectedSegmentIndex]);
+    // NSLog(@"Selected segment index: %d", [segControl selectedSegmentIndex]);
     NSInteger idx = [segControl selectedSegmentIndex];
     NSString* property = @"sortby";
     NSString *value;
@@ -95,7 +95,7 @@
 }
 
 - (void)invokePropertyChange:(NSString*)property value:(NSString*)value {
-    NSLog(@"Property %@ changed to %@", property, value);
+    // NSLog(@"Property %@ changed to %@", property, value);
 }
 
 - (void)didReceiveMemoryWarning {
