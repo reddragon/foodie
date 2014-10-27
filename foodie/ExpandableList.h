@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UITableView.h>
 #import "ExpandingCell.h"
+#import "FilterViewController.h"
 
 @interface ExpandableList : NSObject <ExpandingCellDelegate>
-- (ExpandableList*)initWithObjects:(NSArray*)options defaultIndex:(NSInteger)defaultIndex tableView:(UITableView*)tableView section:(NSInteger)section;
+- (ExpandableList*)initWithObjects:(NSArray*)options defaultIndex:(NSInteger)defaultIndex tableView:(UITableView*)tableView section:(NSInteger)section propName:(NSString*)propName fvc:(FilterViewController*)fvc;
 - (void)collapseWithIndex:(NSInteger)index;
 - (void)expand;
 - (int)getNumRows;

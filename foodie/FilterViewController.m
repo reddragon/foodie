@@ -29,8 +29,8 @@
     
     
     self.dict = [[NSMutableDictionary alloc] initWithCapacity:3];
-    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Auto", @"0.3 miles", @"1 mile", @"5 miles", @"20 miles", nil] defaultIndex:1 tableView:self.filterTable section:1] forKey:@"1"];
-    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"All", @"Chinese", @"Fusion", @"Thai", nil] defaultIndex:0 tableView:self.filterTable section:2] forKey:@"2"];
+    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Auto", @"0.3 miles", @"1 mile", @"5 miles", @"20 miles", nil] defaultIndex:1 tableView:self.filterTable section:1 propName:@"Radius" fvc:self] forKey:@"1"];
+    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"All", @"Chinese", @"Fusion", @"Thai", nil] defaultIndex:0 tableView:self.filterTable section:2 propName:@"Category" fvc:self] forKey:@"2"];
 
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.filterHeaders = [[NSArray alloc] initWithObjects:@"Sort By", @"Radius", @"Categories", nil];
@@ -95,7 +95,7 @@
 }
 
 - (void)invokePropertyChange:(NSString*)property value:(NSString*)value {
-    // NSLog(@"Property %@ changed to %@", property, value);
+    NSLog(@"Property %@ changed to %@", property, value);
 }
 
 - (void)didReceiveMemoryWarning {

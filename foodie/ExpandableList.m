@@ -8,6 +8,7 @@
 
 #import "ExpandableList.h"
 #import "ExpandingCell.h"
+#import "FilterViewController.h"
 #import <UIKit/UIKit.h>
 
 @interface ExpandableList()
@@ -17,17 +18,21 @@
 @property NSInteger selectedOptionIndex;
 @property bool collapsed;
 @property NSInteger numRows;
+@property NSString* propName;
+@property FilterViewController* fvc;
 @end
 
 @implementation ExpandableList
 
-- (ExpandableList*)initWithObjects:(NSArray*)options defaultIndex:(NSInteger)defaultIndex tableView:(UITableView*)tableView section:(NSInteger)section {
+- (ExpandableList*)initWithObjects:(NSArray*)options defaultIndex:(NSInteger)defaultIndex tableView:(UITableView*)tableView section:(NSInteger)section propName:(NSString*)propName fvc:(FilterViewController*)fvc {
     self.options = options;
     self.selectedOptionIndex = defaultIndex;
     self.numRows = 1;
     self.collapsed = YES;
     self.tableView = tableView;
     self.section = section;
+    self.propName = propName;
+    self.fvc = fvc;
     return self;
 }
 
@@ -112,11 +117,10 @@
 }
 
 - (void)onSwitch:(ExpandingCell *)cell {
-    // NSLog(@"I was just informed that switch at row: %ld was changed", (long)cell.row);
-    // NSLog(@"New Value: %@", self.options[cell.row]);
     self.selectedOptionIndex = cell.row;
-    // NSIndexSet* indexSet = [[NSIndexSet alloc] initWithIndex:self.section];
     [self collapseWithIndex:cell.row];
-    // [self.tableView reloadSections:indexSet withRowAnimation:NO];
+    NSString* value = [self.options objectAtIndex:self.selectedOptionIndex];
+    [self.fvc invokePropertyChange:self.propName value:value];
+    // [self.fvc ]
 }
 @end
