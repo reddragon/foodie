@@ -25,6 +25,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 @property (strong, nonatomic) UISearchBar* searchBar;
 @property (strong, nonatomic) NSString* tempSearchTerm;
 @property (strong, nonatomic) NSString* searchTerm;
+@property (strong, nonatomic) RestaurantCell* prototypeCell;
 
 @end
 
@@ -105,6 +106,20 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (RestaurantCell *)prototypeCell {
+    if (_prototypeCell == nil) {
+        _prototypeCell = [self.restTable dequeueReusableCellWithIdentifier:@"RestaurantCell"];
+    }
+    
+    return _prototypeCell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // self.prototypeCell.business = self.restaurants[indexPath.row];
+    CGSize size = [self.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    return size.height + 1;
 }
 
 /*
