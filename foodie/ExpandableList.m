@@ -49,7 +49,7 @@
         [self.tableView insertRowsAtIndexPaths:collapsedRow withRowAnimation:NO];
         
     } else {
-        NSLog(@"Beware! Tried collapsing expandableList for section %d, which was already collapsed.", self.section);
+        NSLog(@"Beware! Tried collapsing expandableList for section %ld, which was already collapsed.", (long)self.section);
     }
 }
 
@@ -66,14 +66,14 @@
         
         NSMutableArray* indexPaths = [[NSMutableArray alloc] initWithCapacity:self.options.count];
         for (NSInteger i = 0; i < self.options.count; i++) {
-            NSLog(@"Going to insert %d", i);
+            NSLog(@"Going to insert %ld", (long)i);
             [indexPaths addObject:[NSIndexPath indexPathForItem:i inSection:self.section]];
         }
-        NSLog(@"Size of indexPaths: %d", indexPaths.count);
+        NSLog(@"Size of indexPaths: %lu", (unsigned long)indexPaths.count);
         self.numRows = self.options.count;
         [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
     } else {
-        NSLog(@"Beware! Tried expanding expandableList for section %d, which was already expanded.", self.section);
+        NSLog(@"Beware! Tried expanding expandableList for section %ld, which was already expanded.", (long)self.section);
     }
 }
 
@@ -96,7 +96,7 @@
 - (UITableViewCell*)cellForIndex:(NSInteger)index {
     if (self.collapsed) {
         if (index != 0) {
-            NSLog(@"Warning! Tried to access a non-zero cell (%d) for a collapsed section %d", index, self.section);
+            NSLog(@"Warning! Tried to access a non-zero cell (%ld) for a collapsed section %ld", (long)index, (long)self.section);
         }
         ExpandingCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"ExpandingCell"];
         [cell.cellLabel setText:[self.options objectAtIndex:self.selectedOptionIndex]];
@@ -112,7 +112,7 @@
 }
 
 - (void)onSwitch:(ExpandingCell *)cell {
-    NSLog(@"I was just informed that switch at row: %d was changed", cell.row);
+    NSLog(@"I was just informed that switch at row: %ld was changed", (long)cell.row);
     self.selectedOptionIndex = cell.row;
     // NSIndexSet* indexSet = [[NSIndexSet alloc] initWithIndex:self.section];
     [self collapseWithIndex:cell.row];

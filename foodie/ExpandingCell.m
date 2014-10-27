@@ -12,7 +12,7 @@
 
 
 - (IBAction)onSwitchValueChanged:(id)sender {
-    NSLog(@"Switch in row %d was pressed", self.row);
+    NSLog(@"Switch in row %ld was pressed", (long)self.row);
     if (self.delegate != nil) {
         NSLog(@"Calling delegate");
         [self.delegate onSwitch:self];

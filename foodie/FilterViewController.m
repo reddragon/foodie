@@ -13,7 +13,6 @@
 @property (strong, nonatomic) NSArray* filterHeaders;
 @property (strong, nonatomic) NSMutableArray* filterRows;
 @property (strong, nonatomic) NSMutableArray* isFiltered;
-@property (strong, nonatomic) ExpandableList* el;
 @property NSMutableDictionary* dict;
 
 @end
@@ -25,14 +24,13 @@
     // Do any additional setup after loading the view from its nib.
     self.filterTable.delegate = self;
     self.filterTable.dataSource = self;
+    self.filterTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
-    self.el = [[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Foo", @"Bar", nil] defaultIndex:1 tableView:self.filterTable section:1];
     
     self.dict = [[NSMutableDictionary alloc] initWithCapacity:3];
-    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Foo", @"Bar", nil] defaultIndex:1 tableView:self.filterTable section:1] forKey:@"1"];
-    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Biz", @"Boo", @"Foo", nil] defaultIndex:0 tableView:self.filterTable section:2] forKey:@"2"];
+    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Auto", @"0.3 miles", @"1 mile", @"5 miles", @"20 miles", nil] defaultIndex:1 tableView:self.filterTable section:1] forKey:@"1"];
+    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"All", @"Chinese", @"Fusion", @"Thai", nil] defaultIndex:0 tableView:self.filterTable section:2] forKey:@"2"];
 
-    
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.filterHeaders = [[NSArray alloc] initWithObjects:@"Sort By", @"Radius", @"Categories", nil];
     self.filterRows = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:1], [NSNumber numberWithInt:1], nil];
@@ -60,10 +58,10 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section != 0) {
         ExpandableList* el = self.dict[[@(section) stringValue]];
-        NSLog(@"Number of rows in special section %d are %d", section, [el getNumRows]);
+        NSLog(@"Number of rows in special section %ld are %d", (long)section, [el getNumRows]);
         return [el getNumRows];
     }
-    NSLog(@"Number of rows in section %d are %d", section, [self.filterRows[section] intValue]);
+    NSLog(@"Number of rows in section %ld are %d", (long)section, [self.filterRows[section] intValue]);
     return [self.filterRows[section] intValue];
 }
 
@@ -80,6 +78,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation

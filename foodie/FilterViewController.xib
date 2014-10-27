@@ -15,34 +15,43 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filters" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Knr-oY-l8b">
-                    <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                    <variation key="widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="8" y="38" width="47" height="21"/>
-                    </variation>
-                </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Mvp-Fg-HfP">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <variation key="widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="0.0" y="67" width="400" height="533"/>
-                    </variation>
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Mvp-Fg-HfP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="GDh-6L-bkP"/>
+                <constraint firstAttribute="bottom" secondItem="Mvp-Fg-HfP" secondAttribute="bottom" id="Lnh-g1-2Zp"/>
+                <constraint firstItem="Mvp-Fg-HfP" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="afU-ow-ax0"/>
+                <constraint firstAttribute="trailing" secondItem="Mvp-Fg-HfP" secondAttribute="trailing" id="bq7-a0-ds9"/>
+                <constraint firstItem="Mvp-Fg-HfP" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="dn4-fm-J7I">
+                    <variation key="widthClass=compact" constant="80"/>
+                </constraint>
+            </constraints>
             <variation key="default">
                 <mask key="subviews">
-                    <exclude reference="Knr-oY-l8b"/>
                     <exclude reference="Mvp-Fg-HfP"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="GDh-6L-bkP"/>
+                    <exclude reference="Lnh-g1-2Zp"/>
+                    <exclude reference="afU-ow-ax0"/>
+                    <exclude reference="bq7-a0-ds9"/>
+                    <exclude reference="dn4-fm-J7I"/>
                 </mask>
             </variation>
             <variation key="widthClass=compact">
                 <mask key="subviews">
-                    <include reference="Knr-oY-l8b"/>
                     <include reference="Mvp-Fg-HfP"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="GDh-6L-bkP"/>
+                    <include reference="Lnh-g1-2Zp"/>
+                    <exclude reference="afU-ow-ax0"/>
+                    <include reference="bq7-a0-ds9"/>
+                    <include reference="dn4-fm-J7I"/>
                 </mask>
             </variation>
         </view>
