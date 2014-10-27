@@ -33,8 +33,11 @@
     }
     NSString* category = [categories componentsJoinedByString:@", "];
     [self.category setText:category];
-    // TODO
-    // Set cuisine and distance
+    
+    float distance = [dictionary[@"distance"] floatValue] / (1600.0);
+    NSString* str = [NSString stringWithFormat:@"%.2f mi", distance];
+    [self.distance setText:str];
+    
     // Randomize setting the dollar rating
     [self.dollarRating setText:@"$$"];
     // [rcell.distance setText:<#(NSString *)#>]
