@@ -39,7 +39,24 @@
     [self.distance setText:str];
     
     // Randomize setting the dollar rating
-    [self.dollarRating setText:@"$$"];
+    srand48([dictionary[@"review_count"] integerValue]);
+    double dr = drand48();
+    int rating = 0;
+    if (dr <= 0.5) {
+        rating = 1;
+    } else if (dr <= 0.75) {
+        rating = 2;
+    } else if (dr <= 0.95) {
+        rating = 3;
+    } else {
+        rating = 4;
+    }
+    
+    NSMutableString* rstr = [[NSMutableString alloc] initWithString:@""];
+    for (int i = 1; i <= rating; i++) {
+        [rstr appendFormat:@"$"];
+    }
+    [self.dollarRating setText:rstr];
     // [rcell.distance setText:<#(NSString *)#>]
 }
 
