@@ -11,6 +11,7 @@
 #import "YelpClient.h"
 #import "UIImageView+AFNetworking.h"
 #include "FilterViewController.h"
+#include "SVProgressHUD.h"
 
 NSString* const consumerKey = @"LV-f5dSnKJkfJBP8aPJSnQ";
 NSString* const consumerSecret = @"P9iLZ-Mk4dtmWlvK1DxqxTo2xps";
@@ -71,13 +72,16 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 
 - (void)searchWithTerm:(NSString*)term {
     // Querying the client
+    [SVProgressHUD show];
     YelpClient* client = [[YelpClient alloc] initWithConsumerKey:consumerKey consumerSecret:consumerSecret accessToken:accessToken accessSecret:accessSecret];
     [client searchWithTerm:term success:^(AFHTTPRequestOperation *operation, id response) {
+        [SVProgressHUD dismiss];
         NSDictionary* dict = response;
         self.restaurants = dict[@"businesses"];
         NSLog(@"Successful, response: %@", self.restaurants);
         [self.restTable reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [SVProgressHUD dismiss];
         NSLog(@"Failed, response: %@", error);
     }];
 }
