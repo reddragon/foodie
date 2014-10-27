@@ -30,6 +30,9 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 @property (strong, nonatomic) RestaurantCell* prototypeCell;
 @property (strong, nonatomic) NSMutableDictionary* filterDict;
 @property bool requiresReload;
+@property UIBarButtonItem* filterButton;
+@property UIBarButtonItem* mapButton;
+@property bool expandedSearchBar;
 
 @end
 
@@ -37,7 +40,9 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.requiresReload = YES;
+    self.expandedSearchBar = NO;
     // Setting up the table and registering the nib
     self.restTable.dataSource = self;
     self.restTable.delegate = self;
@@ -54,17 +59,33 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
     self.navigationItem.titleView = self.searchBar;
     //[self.navigationController.tit]
     
-    UIBarButtonItem* filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(onPressFilterButton)];
-    filterButton.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = filterButton;
+    self.filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(onPressFilterButton)];
+    self.filterButton.tintColor = [UIColor whiteColor];
+    self.navigationItem.leftBarButtonItem = self.filterButton;
     
-    UIBarButtonItem* mapButton = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(onPressMapButton)];
-    mapButton.tintColor = [UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem = mapButton;
+    self.mapButton = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(onPressMapButton)];
+    self.mapButton.tintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem = self.mapButton;
     
     self.searchTerm = @"";
     self.filterDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"0", @"sort", @"", @"category_filter", @"", @"radius_filter", nil];
     [self searchWithTerm:self.searchTerm];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    if (self.expandedSearchBar == NO) {
+      self.expandedSearchBar = YES;
+      self.navigationItem.rightBarButtonItem = nil;
+      self.navigationItem.leftBarButtonItem = nil;
+    }
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    if (self.expandedSearchBar == YES) {
+      self.expandedSearchBar = NO;
+      self.navigationItem.rightBarButtonItem = self.mapButton;
+      self.navigationItem.leftBarButtonItem = self.filterButton;
+    }
 }
 
 - (void)onPressMapButton {
@@ -75,6 +96,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 
 - (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     self.tempSearchTerm = searchText;
+    [self searchBarTextDidBeginEditing:self.searchBar];
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -98,10 +120,8 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
     }];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    if (self.requiresReload) {
-        [self searchWithTerm:self.searchTerm];
-    }
+- (void)keyboardWillShow {
+    NSLog(@"Will show");
 }
 
 - (void)onPressFilterButton {
@@ -111,6 +131,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self searchBarTextDidEndEditing:self.searchBar];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
