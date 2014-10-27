@@ -52,7 +52,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
     filterButton.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = filterButton;
     // [filterButton release];
-    self.searchTerm = @"thai";
+    self.searchTerm = @"fusion";
     [self searchWithTerm:self.searchTerm];
 }
 

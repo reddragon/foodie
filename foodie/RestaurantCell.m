@@ -19,7 +19,13 @@
     [self.restImage.layer setMasksToBounds:YES];
     
     [self.numReviews setText:[NSString stringWithFormat:@"%@ reviews", dictionary[@"review_count"]]];
-    [self.address setText:dictionary[@"location"][@"address"][0]];
+    
+    NSArray* locArray = dictionary[@"location"][@"address"];
+    if (locArray.count == 0) {
+        [self.address setText:@"Address Unknown"];
+    } else {
+      [self.address setText:dictionary[@"location"][@"address"][0]];
+    }
     // TODO
     // Set cuisine and distance
     // Randomize setting the dollar rating
