@@ -23,6 +23,9 @@
                     </segmentedControl>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="sortByChoice" destination="7fn-lc-h4M" id="9Rf-r6-5x2"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

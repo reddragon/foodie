@@ -7,6 +7,7 @@
 //
 
 #import "FilterViewController.h"
+#import "SortByCell.h"
 #include "ExpandableList.h"
 
 @interface FilterViewController ()
@@ -67,17 +68,42 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return [self.filterTable dequeueReusableCellWithIdentifier:@"SortByCell"];
+        SortByCell* cell = [self.filterTable dequeueReusableCellWithIdentifier:@"SortByCell"];
+        [cell.sortByChoice addTarget:self action:@selector(onClickSortBy:) forControlEvents:UIControlEventValueChanged];
+        return cell;
     } else {
         ExpandableList* el = self.dict[[@(indexPath.section) stringValue]];
         return [el cellForIndex:indexPath.row];
     }
 }
 
+- (void)onClickSortBy:(id)sender {
+    NSLog(@"onClickSortBy invoked");
+    UISegmentedControl* segControl = sender;
+    NSLog(@"Selected segment index: %d", [segControl selectedSegmentIndex]);
+    NSInteger idx = [segControl selectedSegmentIndex];
+    NSString* property = @"sortby";
+    NSString *value;
+    if (idx == 0) {
+        value = @"auto";
+    } else if (idx == 1) {
+        value = @"distance";
+    } else if (idx == 2) {
+        value = @"rating";
+    }
+    [self invokePropertyChange:property value:value];
+}
+
+- (void)invokePropertyChange:(NSString*)property value:(NSString*)value {
+    NSLog(@"Property %@ changed to %@", property, value);
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 
 /*

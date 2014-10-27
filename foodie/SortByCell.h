@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SortByCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UISegmentedControl *sortByChoice;
 
 @end
