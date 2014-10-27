@@ -11,6 +11,7 @@
 #import "YelpClient.h"
 #import "UIImageView+AFNetworking.h"
 #include "FilterViewController.h"
+#include "MapViewController.h"
 #include "SVProgressHUD.h"
 
 NSString* const consumerKey = @"LV-f5dSnKJkfJBP8aPJSnQ";
@@ -56,21 +57,28 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
     UIBarButtonItem* filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(onPressFilterButton)];
     filterButton.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = filterButton;
-    // [filterButton release];
+    
+    UIBarButtonItem* mapButton = [[UIBarButtonItem alloc] initWithTitle:@"Map" style:UIBarButtonItemStylePlain target:self action:@selector(onPressMapButton)];
+    mapButton.tintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem = mapButton;
+    
     self.searchTerm = @"";
     self.filterDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"0", @"sort", @"", @"category_filter", @"", @"radius_filter", nil];
     [self searchWithTerm:self.searchTerm];
 }
 
+- (void)onPressMapButton {
+    MapViewController* mvc = [[MapViewController alloc] init];
+    mvc.restaurants = self.restaurants;
+    [self.navigationController pushViewController:mvc animated:YES];
+}
+
 - (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     self.tempSearchTerm = searchText;
-    // NSLog(@"Temp Search Term is %@", self.tempSearchTerm);
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    // NSLog(@"And it fires!");
     self.searchTerm = self.tempSearchTerm;
-    // NSLog(@"Final search term is %@", self.searchTerm);
     [self searchWithTerm:self.searchTerm];
 }
 
@@ -83,7 +91,6 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
         [SVProgressHUD dismiss];
         NSDictionary* dict = response;
         self.restaurants = dict[@"businesses"];
-        // NSLog(@"Successful, response: %@", self.restaurants);
         [self.restTable reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD dismiss];

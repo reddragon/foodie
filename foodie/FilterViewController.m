@@ -27,7 +27,6 @@
     self.filterTable.dataSource = self;
     self.filterTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
-    
     self.dict = [[NSMutableDictionary alloc] initWithCapacity:3];
     [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Auto", @"0.3 miles", @"1 mile", @"5 miles", @"20 miles", nil] defaultIndex:0 tableView:self.filterTable section:1 propName:@"radius_filter" fvc:self] forKey:@"1"];
     [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"All", @"Chinese", @"Pizza", @"Thai", nil] defaultIndex:0 tableView:self.filterTable section:2 propName:@"category_filter" fvc:self] forKey:@"2"];
