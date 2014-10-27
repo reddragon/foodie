@@ -94,6 +94,12 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    if (self.requiresReload) {
+        [self searchWithTerm:self.searchTerm];
+    }
+}
+
 - (void)onPressMapButton {
     MapViewController* mvc = [[MapViewController alloc] init];
     mvc.restaurants = self.restaurants;
@@ -102,6 +108,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 
 - (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     self.tempSearchTerm = searchText;
+    [self.filterDict removeAllObjects];
     [self searchBarTextDidBeginEditing:self.searchBar];
 }
 
@@ -124,6 +131,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
         [SVProgressHUD dismiss];
         NSLog(@"Failed, response: %@", error);
     }];
+    [self searchBarTextDidEndEditing:self.searchBar];
 }
 
 - (void)searchForInfiniteScrolling {
