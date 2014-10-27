@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FilterViewController.h"
 
-@interface RestaurantListViewController : UIViewController <UISearchBarDelegate>
+@interface RestaurantListViewController : UIViewController <UISearchBarDelegate, FilterProtocol>
 
 @end

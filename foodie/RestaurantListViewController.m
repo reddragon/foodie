@@ -27,6 +27,8 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 @property (strong, nonatomic) NSString* tempSearchTerm;
 @property (strong, nonatomic) NSString* searchTerm;
 @property (strong, nonatomic) RestaurantCell* prototypeCell;
+@property (strong, nonatomic) NSMutableDictionary* filterDict;
+@property bool requiresReload;
 
 @end
 
@@ -34,6 +36,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.requiresReload = YES;
     // Setting up the table and registering the nib
     self.restTable.dataSource = self;
     self.restTable.delegate = self;
@@ -54,7 +57,8 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
     filterButton.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = filterButton;
     // [filterButton release];
-    self.searchTerm = @"fusion";
+    self.searchTerm = @"";
+    self.filterDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"0", @"sort", @"", @"category_filter", @"", @"radius_filter", nil];
     [self searchWithTerm:self.searchTerm];
 }
 
@@ -71,24 +75,31 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 }
 
 - (void)searchWithTerm:(NSString*)term {
+    self.requiresReload = NO;
     // Querying the client
     [SVProgressHUD show];
-    YelpClient* client = [[YelpClient alloc] initWithConsumerKey:consumerKey consumerSecret:consumerSecret accessToken:accessToken accessSecret:accessSecret];
+    YelpClient* client = [[YelpClient alloc] initWithConsumerKey:consumerKey consumerSecret:consumerSecret accessToken:accessToken accessSecret:accessSecret filterDict:self.filterDict];
     [client searchWithTerm:term success:^(AFHTTPRequestOperation *operation, id response) {
         [SVProgressHUD dismiss];
         NSDictionary* dict = response;
         self.restaurants = dict[@"businesses"];
-        // NSLog(@"Successful, response: %@", self.restaurants);
+        NSLog(@"Successful, response: %@", self.restaurants);
         [self.restTable reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD dismiss];
-        // NSLog(@"Failed, response: %@", error);
+        NSLog(@"Failed, response: %@", error);
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    if (self.requiresReload) {
+        [self searchWithTerm:self.searchTerm];
+    }
+}
 
 - (void)onPressFilterButton {
     FilterViewController* fvc = [[FilterViewController alloc] init];
+    fvc.delegate = self;
     [self.navigationController pushViewController:fvc animated:YES];
 }
 
@@ -124,6 +135,30 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
     // self.prototypeCell.business = self.restaurants[indexPath.row];
     CGSize size = [self.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     return size.height + 1;
+}
+
+- (void)changedProperty:(NSString *)property value:(NSString *)value {
+    self.requiresReload = YES;
+    NSString* sanitizedVal;
+    if ([property isEqualToString:@"sort"]) {
+        sanitizedVal = value;
+    } else if ([property isEqualToString:@"category_filter"]) {
+        if ([value isEqualToString:@"All"]) {
+            sanitizedVal = @"";
+        } else {
+            sanitizedVal = [value lowercaseString];
+        }
+    } else if ([property isEqualToString:@"radius_filter"]) {
+        if ([value isEqualToString:@"Auto"]) {
+            sanitizedVal = @"";
+        } else {
+            NSArray* words = [value componentsSeparatedByString:@" "];
+            int meters =  (int)(1600.0 * [words[0] floatValue]);
+            sanitizedVal = [NSString stringWithFormat:@"%d", meters];
+        }
+    }
+    NSLog(@"Changed property %@ with value %@", property, sanitizedVal);
+    self.filterDict[property] = sanitizedVal;
 }
 
 /*

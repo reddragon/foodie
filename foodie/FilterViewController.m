@@ -29,8 +29,8 @@
     
     
     self.dict = [[NSMutableDictionary alloc] initWithCapacity:3];
-    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Auto", @"0.3 miles", @"1 mile", @"5 miles", @"20 miles", nil] defaultIndex:1 tableView:self.filterTable section:1 propName:@"Radius" fvc:self] forKey:@"1"];
-    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"All", @"Chinese", @"Fusion", @"Thai", nil] defaultIndex:0 tableView:self.filterTable section:2 propName:@"Category" fvc:self] forKey:@"2"];
+    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Auto", @"0.3 miles", @"1 mile", @"5 miles", @"20 miles", nil] defaultIndex:0 tableView:self.filterTable section:1 propName:@"radius_filter" fvc:self] forKey:@"1"];
+    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"All", @"Chinese", @"Fusion", @"Thai", nil] defaultIndex:0 tableView:self.filterTable section:2 propName:@"category_filter" fvc:self] forKey:@"2"];
 
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.filterHeaders = [[NSArray alloc] initWithObjects:@"Sort By", @"Radius", @"Categories", nil];
@@ -82,29 +82,21 @@
     UISegmentedControl* segControl = sender;
     // NSLog(@"Selected segment index: %d", [segControl selectedSegmentIndex]);
     NSInteger idx = [segControl selectedSegmentIndex];
-    NSString* property = @"sortby";
-    NSString *value;
-    if (idx == 0) {
-        value = @"auto";
-    } else if (idx == 1) {
-        value = @"distance";
-    } else if (idx == 2) {
-        value = @"rating";
-    }
+    NSString* property = @"sort";
+    NSString *value = [NSString stringWithFormat:@"%d", idx];
     [self invokePropertyChange:property value:value];
 }
 
 - (void)invokePropertyChange:(NSString*)property value:(NSString*)value {
-    NSLog(@"Property %@ changed to %@", property, value);
+    if (self.delegate != nil) {
+        [self.delegate changedProperty:property value:value];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-
 
 /*
 #pragma mark - Navigation

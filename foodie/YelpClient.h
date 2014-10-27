@@ -11,7 +11,7 @@
 
 @interface YelpClient : BDBOAuth1RequestOperationManager
 
-- (id) initWithConsumerKey:(NSString*) key consumerSecret:(NSString*)consumerSecret accessToken:(NSString*)accessToken accessSecret:(NSString*)accessSecret;
+- (id) initWithConsumerKey:(NSString*) key consumerSecret:(NSString*)consumerSecret accessToken:(NSString*)accessToken accessSecret:(NSString*)accessSecret filterDict:(NSDictionary*)filterDict;
 - (AFHTTPRequestOperation *)searchWithTerm:(NSString *)term success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
 
