@@ -41,6 +41,11 @@
         parameters[@"sort"] = sort;
     }
     
+    NSString* offset = self.filterDict[@"offset"];
+    if (offset.length > 0) {
+        parameters[@"offset"] = offset;
+    }
+    
     NSString* category_filter = self.filterDict[@"category_filter"];
     if (category_filter.length > 0) {
         parameters[@"category_filter"] = category_filter;

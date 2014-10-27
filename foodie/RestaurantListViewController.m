@@ -22,7 +22,7 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 
 @interface RestaurantListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *restTable;
-@property (strong, nonatomic) NSArray* restaurants;
+@property (strong, nonatomic) NSMutableArray* restaurants;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navBar;
 @property (strong, nonatomic) UISearchBar* searchBar;
 @property (strong, nonatomic) NSString* tempSearchTerm;
@@ -40,7 +40,13 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [loadingView startAnimating];
+    loadingView.center = tableFooterView.center;
+    [tableFooterView addSubview:loadingView];
+    self.restTable.tableFooterView = tableFooterView;
+    
     self.requiresReload = YES;
     self.expandedSearchBar = NO;
     // Setting up the table and registering the nib
@@ -112,7 +118,30 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
     [client searchWithTerm:term success:^(AFHTTPRequestOperation *operation, id response) {
         [SVProgressHUD dismiss];
         NSDictionary* dict = response;
-        self.restaurants = dict[@"businesses"];
+        self.restaurants = [[NSMutableArray alloc] initWithArray:dict[@"businesses"]];
+        [self.restTable reloadData];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [SVProgressHUD dismiss];
+        NSLog(@"Failed, response: %@", error);
+    }];
+}
+
+- (void)searchForInfiniteScrolling {
+    int offset = self.restaurants.count;
+    self.filterDict[@"offset"] = [NSString stringWithFormat:@"%d", offset];
+    // Querying the client
+    [SVProgressHUD show];
+    YelpClient* client = [[YelpClient alloc] initWithConsumerKey:consumerKey consumerSecret:consumerSecret accessToken:accessToken accessSecret:accessSecret filterDict:self.filterDict];
+    [client searchWithTerm:self.searchTerm success:^(AFHTTPRequestOperation *operation, id response) {
+        [SVProgressHUD dismiss];
+        NSDictionary* dict = response;
+        // NSLog(@"Response: %@", dict);
+        NSArray* els = dict[@"businesses"];
+        
+        NSMutableArray* newElements = [[NSMutableArray alloc] initWithArray:els ];
+        [self.restaurants addObjectsFromArray:newElements];
+        NSLog(@"New length: %d response size: %d", self.restaurants.count, els.count);
+        // self.restaurants = dict[@"businesses"];
         [self.restTable reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD dismiss];
@@ -143,6 +172,9 @@ NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
     RestaurantCell* rcell = [self.restTable dequeueReusableCellWithIdentifier:@"RestaurantCell"];
     NSDictionary* rest = self.restaurants[indexPath.row];
     [rcell initWithResponseDict:rest index:indexPath.row];
+    if (indexPath.row == self.restaurants.count - 1) {
+        [self searchForInfiniteScrolling];
+    }
     return rcell;
 }
 
