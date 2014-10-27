@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSMutableArray* filterRows;
 @property (strong, nonatomic) NSMutableArray* isFiltered;
 @property (strong, nonatomic) ExpandableList* el;
+@property NSMutableDictionary* dict;
 
 @end
 
@@ -26,6 +27,11 @@
     self.filterTable.dataSource = self;
     
     self.el = [[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Foo", @"Bar", nil] defaultIndex:1 tableView:self.filterTable section:1];
+    
+    self.dict = [[NSMutableDictionary alloc] initWithCapacity:3];
+    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Foo", @"Bar", nil] defaultIndex:1 tableView:self.filterTable section:1] forKey:@"1"];
+    [self.dict setValue:[[ExpandableList alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Biz", @"Boo", @"Foo", nil] defaultIndex:0 tableView:self.filterTable section:2] forKey:@"2"];
+
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.filterHeaders = [[NSArray alloc] initWithObjects:@"Sort By", @"Radius", @"Categories", nil];
@@ -41,14 +47,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.filterTable deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 1) {
-        [self.el handleClick:indexPath.row];
-    } else if (indexPath.section == 2) {
-        self.filterRows[indexPath.section] = [NSNumber numberWithInt:2];
-        NSInteger row = 1;
-        NSMutableArray* indexPaths = [[NSMutableArray alloc] initWithObjects:[NSIndexPath indexPathForItem:row inSection:indexPath.section], nil];
-        [self.filterTable insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
-        // [self.filterTable reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:YES];
+    if (indexPath.section != 0) {
+        ExpandableList* el = self.dict[[@(indexPath.section) stringValue]];
+        [el handleClick:indexPath.row];
     }
 }
 
@@ -57,23 +58,22 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 1) {
-        NSLog(@"Number of rows in special section %d are %d", section, [self.el getNumRows]);
-        return [self.el getNumRows];
+    if (section != 0) {
+        ExpandableList* el = self.dict[[@(section) stringValue]];
+        NSLog(@"Number of rows in special section %d are %d", section, [el getNumRows]);
+        return [el getNumRows];
     }
     NSLog(@"Number of rows in section %d are %d", section, [self.filterRows[section] intValue]);
     return [self.filterRows[section] intValue];
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.filterHeaders[indexPath.section] isEqual:@"Sort By"]) {
+    if (indexPath.section == 0) {
         return [self.filterTable dequeueReusableCellWithIdentifier:@"SortByCell"];
-    } else if (indexPath.section == 1) {
-        return [self.el cellForIndex:indexPath.row];
+    } else {
+        ExpandableList* el = self.dict[[@(indexPath.section) stringValue]];
+        return [el cellForIndex:indexPath.row];
     }
-    UITableViewCell* tvc = [[UITableViewCell alloc] init];
-    return tvc;
-    // return nil;
 }
 
 - (void)didReceiveMemoryWarning {

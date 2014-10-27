@@ -104,6 +104,7 @@
         return cell;
     } else {
         ExpandingCell* cell = [self.tableView dequeueReusableCellWithIdentifier:@"ExpandingCell"];
+        cell.cellSwitch.hidden = NO;
         [cell initWithOptions:index isOn:(index == self.selectedOptionIndex) delegate:self];
         [cell.cellLabel setText:[self.options objectAtIndex:index]];
         return cell;
