@@ -21,7 +21,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Restaurant Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0JB-Nl-vKj">
-                        <rect key="frame" x="81" y="8" width="266" height="14.5"/>
+                        <rect key="frame" x="81" y="8" width="266" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="165" id="acT-Xv-WRW"/>
                         </constraints>
@@ -41,7 +41,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 Reviews" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BvA-wt-5JR">
-                        <rect key="frame" x="164" y="27" width="59.5" height="12"/>
+                        <rect key="frame" x="164" y="27" width="60" height="12"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -106,6 +106,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="address" destination="zAB-PX-BFp" id="Lw9-rP-XEh"/>
+                <outlet property="category" destination="zxe-NI-Qaj" id="9G4-Cy-u8p"/>
                 <outlet property="distance" destination="kkn-Ut-eDS" id="4ri-FH-6JJ"/>
                 <outlet property="dollarRating" destination="xNP-8g-KH9" id="D1c-ya-1DL"/>
                 <outlet property="numReviews" destination="BvA-wt-5JR" id="qmR-vd-b3Z"/>

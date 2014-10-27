@@ -26,6 +26,13 @@
     } else {
       [self.address setText:dictionary[@"location"][@"address"][0]];
     }
+    
+    NSMutableArray* categories = [[NSMutableArray alloc] initWithCapacity:20];
+    for (NSArray* category in dictionary[@"categories"]) {
+        [categories addObject:category[0]];
+    }
+    NSString* category = [categories componentsJoinedByString:@", "];
+    [self.category setText:category];
     // TODO
     // Set cuisine and distance
     // Randomize setting the dollar rating
