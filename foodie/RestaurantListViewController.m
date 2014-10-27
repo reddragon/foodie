@@ -12,11 +12,19 @@
 #import "UIImageView+AFNetworking.h"
 #include "FilterViewController.h"
 
+NSString* const consumerKey = @"LV-f5dSnKJkfJBP8aPJSnQ";
+NSString* const consumerSecret = @"P9iLZ-Mk4dtmWlvK1DxqxTo2xps";
+NSString* const accessToken = @"j3uvzAZdLnTHu7hrE8uWdnk9b5E0eBLs";
+NSString* const accessSecret = @"1CTX2Kn0ldmG4V1wxErO554K2HY";
+
+
 @interface RestaurantListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *restTable;
 @property (strong, nonatomic) NSArray* restaurants;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navBar;
 @property (strong, nonatomic) UISearchBar* searchBar;
+@property (strong, nonatomic) NSString* tempSearchTerm;
+@property (strong, nonatomic) NSString* searchTerm;
 
 @end
 
@@ -36,7 +44,7 @@
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:175.0/255.0 green:6.0/255.0 blue:6.0/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setBarStyle:UIStatusBarStyleLightContent];
     self.searchBar = [[UISearchBar alloc] init];
-    // self.searchBar.
+    self.searchBar.delegate = self;
     self.navigationItem.titleView = self.searchBar;
     //[self.navigationController.tit]
     
@@ -44,10 +52,26 @@
     filterButton.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = filterButton;
     // [filterButton release];
-    
+    self.searchTerm = @"thai";
+    [self searchWithTerm:self.searchTerm];
+}
+
+- (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    self.tempSearchTerm = searchText;
+    NSLog(@"Temp Search Term is %@", self.tempSearchTerm);
+}
+
+- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    NSLog(@"And it fires!");
+    self.searchTerm = self.tempSearchTerm;
+    NSLog(@"Final search term is %@", self.searchTerm);
+    [self searchWithTerm:self.searchTerm];
+}
+
+- (void)searchWithTerm:(NSString*)term {
     // Querying the client
-    YelpClient* client = [[YelpClient alloc] initWithConsumerKey:@"LV-f5dSnKJkfJBP8aPJSnQ" consumerSecret:@"P9iLZ-Mk4dtmWlvK1DxqxTo2xps" accessToken:@"j3uvzAZdLnTHu7hrE8uWdnk9b5E0eBLs" accessSecret:@"1CTX2Kn0ldmG4V1wxErO554K2HY"];
-    [client searchWithTerm:@"thai" success:^(AFHTTPRequestOperation *operation, id response) {
+    YelpClient* client = [[YelpClient alloc] initWithConsumerKey:consumerKey consumerSecret:consumerSecret accessToken:accessToken accessSecret:accessSecret];
+    [client searchWithTerm:term success:^(AFHTTPRequestOperation *operation, id response) {
         NSDictionary* dict = response;
         self.restaurants = dict[@"businesses"];
         NSLog(@"Successful, response: %@", self.restaurants);
@@ -56,6 +80,7 @@
         NSLog(@"Failed, response: %@", error);
     }];
 }
+
 
 - (void)onPressFilterButton {
     FilterViewController* fvc = [[FilterViewController alloc] init];
@@ -76,8 +101,6 @@
     [rcell initWithResponseDict:rest index:indexPath.row];
     return rcell;
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
